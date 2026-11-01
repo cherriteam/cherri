@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Cherri — Unblocked Games &amp; Browser</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='36' r='22' fill='%23ff2d75'/%3E%3Cpath d='M32 14c-2-6 4-10 8-8' stroke='%2339ff14' stroke-width='3' fill='none'/%3E%3Ccircle cx='40' cy='8' r='6' fill='%23ff6fa3'/%3E%3C/svg%3E"/>
+<link rel="stylesheet" href="css/fontawesome.css"/>
+<style>
+:root{
+  --bg:#07070b;
+  --bg2:#0e0e16;
+  --panel:#12121d;
+  --panel2:#1a1a28;
+  --pink:#ff2d75;
+  --pink2:#ff6fa3;
+  --pink3:#ff9ec4;
+  --red:#ff1744;
+  --glow:0 0 6px #ff2d75,0 0 16px #ff2d7544;
+  --glow-sm:0 0 4px #ff2d75,0 0 10px #ff2d7533;
+  --text:#f5f5fa;
+  --muted:#9a9ab0;
+  --border:#ff2d7544;
+  --radius:14px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  overflow-x:hidden;
+}
+.bg-layer{
+  position:fixed;inset:0;z-index:-2;
+  pointer-events:none;
+  background-image:url('img/bg.gif');
+  background-size:cover;
+  background-position:center;
+  background-repeat:no-repeat;
+  filter:brightness(0.32) saturate(1.15);
+}
+.bg-layer::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(180deg, rgba(7,7,11,0.5), rgba(7,7,11,0.88));
+  backdrop-filter:blur(2px);
+}
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:-1;
+  background:
+    radial-gradient(700px 500px at 15% 10%, #ff2d7514, transparent 60%),
+    radial-gradient(700px 500px at 85% 90%, #ff174414, transparent 60%);
+  animation:drift 18s ease-in-out infinite alternate;
+}
+@keyframes drift{from{transform:translate(0,0)}to{transform:translate(2%,2%)}}
+a{color:var(--pink2);text-decoration:none}
+button{font-family:inherit}
+
+/* Header */
+header{
+  position:sticky;top:0;z-index:50;
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+  padding:10px 24px;
+  background:linear-gradient(180deg,#0e0e16cc,#07070bcc);
+  backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--border);
+  box-shadow:0 4px 30px #ff2d7522;
+}
+.logo{
+  display:flex;align-items:center;gap:10px;
+}
+.logo-img{
+  height:118px;width:auto;object-fit:contain;
+  filter:drop-shadow(var(--glow-sm));
+  transition:transform .2s ease;
+}
+.logo:hover .logo-img{transform:scale(1.05)}
+.hero-logo{
+  height:clamp(90px,18vw,220px);width:auto;object-fit:contain;
+  margin:0 auto 8px;
+  filter:drop-shadow(var(--glow));
+  display:block;
+}
+.logo svg{filter:drop-shadow(var(--glow-sm));animation:logoPulse 2.6s ease-in-out infinite}
+@keyframes logoPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08) rotate(-4deg)}}
+nav{display:flex;gap:8px;flex-wrap:wrap}
+.tab-btn{
+  background:transparent;color:var(--muted);
+  border:1px solid transparent;padding:8px 16px;border-radius:999px;
+  cursor:pointer;font-weight:600;font-size:14px;transition:all .25s;
+  display:flex;align-items:center;gap:6px;
+}
+.tab-btn:hover{color:var(--pink2);border-color:var(--border)}
+.tab-btn:active,.modal-btn:active,.chip:active{transform:scale(0.96)}
+.tab-btn.active{
+  color:#fff;background:linear-gradient(135deg,#ff2d75,#ff1744);
+  box-shadow:var(--glow-sm);border-color:transparent;
+}
+.tab-btn i{font-style:normal}
+
+main{position:relative;z-index:1;padding:24px;max-width:1400px;margin:0 auto}
+
+/* Pages */
+.page{display:none;animation:fadeIn .35s ease}
+.page.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+/* Hero */
+.hero{
+  text-align:center;margin-bottom:28px;
+}
+.hero h1{
+  font-size:44px;margin:0 0 6px;background:linear-gradient(90deg,var(--pink),var(--pink3));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  text-shadow:0 0 40px #ff2d7544;
+}
+.hero p{color:var(--muted);margin:0}
+
+/* Games toolbar */
+.toolbar{display:flex;gap:12px;align-items:center;margin-bottom:20px;flex-wrap:wrap}
+.search-box{
+  flex:1;min-width:240px;display:flex;align-items:center;gap:10px;
+  background:var(--panel);border:1px solid var(--border);border-radius:999px;padding:10px 18px;
+  transition:border .2s,box-shadow .2s;
+}
+.search-box:focus-within{border-color:var(--pink);box-shadow:var(--glow-sm)}
+.search-box input{flex:1;background:transparent;border:none;outline:none;color:var(--text);font-size:15px}
+.search-box .icon{color:var(--pink);font-size:18px}
+.chip{
+  background:var(--panel);border:1px solid var(--border);color:var(--muted);
+  padding:8px 14px;border-radius:999px;font-size:13px;cursor:pointer;transition:all .2s;
+}
+.chip:hover,.chip.active{color:#fff;border-color:var(--pink);background:#ff2d7522;box-shadow:var(--glow-sm)}
+
+/* Games grid */
+.games-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:16px;
+}
+.game-card{
+  background:linear-gradient(160deg,var(--panel),var(--panel2));
+  border:1px solid var(--border);border-radius:var(--radius);padding:12px;
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  cursor:pointer;transition:transform .25s,box-shadow .25s,border-color .25s;
+  position:relative;overflow:hidden;
+}
+.game-card::before{
+  content:'';position:absolute;inset:0;opacity:0;
+  background:radial-gradient(circle at 50% 0%,#ff2d7533,transparent 60%);
+  transition:opacity .3s;
+}
+.game-card:hover{transform:translateY(-6px) scale(1.02);border-color:var(--pink);box-shadow:var(--glow)}
+.game-card:hover::before{opacity:1}
+.game-card img{width:96px;height:96px;border-radius:12px;object-fit:cover;box-shadow:0 4px 18px #0008;position:relative;z-index:1}
+.game-card .name{font-size:13px;font-weight:600;text-align:center;position:relative;z-index:1}
+.game-card .play{
+  position:absolute;top:8px;right:8px;background:var(--pink);color:#fff;
+  width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-size:12px;opacity:0;transform:scale(.6);transition:all .2s;z-index:2;box-shadow:var(--glow-sm);
+}
+.game-card:hover .play{opacity:1;transform:scale(1)}
+
+/* Loader */
+.loader{
+  position:fixed;inset:0;z-index:9999;
+  background:rgba(7,7,11,0.92);
+  backdrop-filter:blur(8px);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:18px;
+  transition:opacity .6s ease;
+}
+.loader.hide{opacity:0;pointer-events:none;}
+.loader-logo{
+  height:clamp(80px,16vw,180px);width:auto;object-fit:contain;
+  filter:drop-shadow(var(--glow));
+  animation:logoPulse 1.6s ease-in-out infinite;
+}
+.loader-text{
+  color:var(--muted);font-size:14px;letter-spacing:.5px;
+}
+.loader-bar{
+  width:min(320px,60vw);height:6px;border-radius:999px;
+  background:rgba(255,255,255,0.08);overflow:hidden;
+}
+.loader-fill{
+  height:100%;width:0%;border-radius:999px;
+  background:linear-gradient(90deg,var(--pink),var(--pink2));
+  box-shadow:var(--glow-sm);
+  transition:width .2s linear;
+}
+
+/* Custom cursor */
+body.custom-cursor, body.custom-cursor *{cursor:none !important;}
+.cursor-dot{
+  position:fixed;top:0;left:0;width:10px;height:10px;border-radius:50%;
+  background:#fff;pointer-events:none;z-index:100000;
+  transform:translate(-50%,-50%);
+  box-shadow:0 0 12px #fff,0 0 24px #ffffff66;
+  transition:width .15s,height .15s,background .15s,transform .08s;
+  mix-blend-mode:difference;
+}
+.cursor-trail{
+  position:fixed;top:0;left:0;width:28px;height:28px;border-radius:50%;
+  border:1.5px solid rgba(255,255,255,0.6);
+  pointer-events:none;z-index:99999;
+  transform:translate(-50%,-50%);
+  transition:width .2s,height .2s,border-color .2s,opacity .2s;
+}
+.cursor-trail2{width:40px;height:40px;border-color:rgba(255,45,117,0.45);z-index:99998;}
+.cursor-trail3{width:52px;height:52px;border-color:rgba(255,111,163,0.25);z-index:99997;}
+.cursor-ripple{
+  position:fixed;top:0;left:0;width:0;height:0;border-radius:50%;
+  border:2px solid #fff;pointer-events:none;z-index:99998;
+  transform:translate(-50%,-50%);opacity:0;
+}
+.cursor-dot.hover{width:18px;height:18px;background:#ff6fa3;}
+.cursor-trail.hover{width:46px;height:46px;border-color:#ff2d75;}
+.cursor-dot.click{transform:translate(-50%,-50%) scale(0.5);}
+.cursor.hidden,.cursor-trail.hidden,.cursor-ripple.hidden{display:none !important;}
+body.game-open .cursor-dot,body.game-open .cursor-trail,body.game-open .cursor-trail2,body.game-open .cursor-trail3,body.game-open .cursor-ripple{display:none !important;}
+body.game-open,body.game-open *{cursor:auto !important;}
+
+/* Scroll reveal */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease;}
+.reveal.in-view{opacity:1;transform:none;}
+.reveal-left{opacity:0;transform:translateX(-28px);transition:opacity .7s ease,transform .7s ease;}
+.reveal-left.in-view{opacity:1;transform:none;}
+.reveal-scale{opacity:0;transform:scale(0.92);transition:opacity .7s ease,transform .7s ease;}
+.reveal-scale.in-view{opacity:1;transform:scale(1);}
+
+/* Glass panels */
+header, .side-panel, .list-card, .setting, .game-card, .modal-bar {
+  background: rgba(18,18,28,0.42);
+  backdrop-filter: blur(14px) saturate(1.2);
+  -webkit-backdrop-filter: blur(14px) saturate(1.2);
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.35);
+}
+.search-box, .chip, .tabs-bar .tab, .new-tab-btn, .addr-bar input, .modal-btn {
+  background: rgba(18,18,28,0.35);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+.browser-frame {
+  background: rgba(18,18,28,0.35);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+/* Modal */
+.modal{
+  position:fixed;inset:0;z-index:100000;background:#000;display:flex;flex-direction:column;
+  animation:fadeIn .2s;overflow:hidden;
+}
+.modal.hidden{display:none}
+.modal-bar{
+  display:flex;align-items:center;gap:10px;padding:10px 16px;
+  background:var(--bg2);border-bottom:1px solid var(--border);
+}
+.modal-bar .title{flex:1;font-weight:600;color:var(--pink2)}
+.modal-btn{
+  background:var(--panel);color:var(--text);border:1px solid var(--border);
+  padding:6px 12px;border-radius:8px;cursor:pointer;font-size:13px;transition:all .2s;
+}
+.modal-btn:hover{border-color:var(--pink);color:var(--pink)}
+.modal iframe{flex:1;border:none;background:#000;height:calc(100vh - 52px);width:100%;display:block}
+
+/* Browser */
+.browser{
+  display:grid;grid-template-columns:260px 1fr;gap:16px;
+}
+@media(max-width:900px){.browser{grid-template-columns:1fr}}
+.side-panel{
+  background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:14px;
+  height:fit-content;
+}
+.side-panel h3{margin:0 0 10px;color:var(--pink);font-size:15px}
+.side-list{list-style:none;padding:0;margin:0;max-height:400px;overflow:auto}
+.side-list li{
+  padding:8px 10px;border-radius:8px;cursor:pointer;font-size:13px;
+  display:flex;align-items:center;gap:8px;transition:background .2s;
+}
+.side-list li:hover{background:#ff2d7522}
+.side-list li .u{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--muted)}
+.side-list li button{background:transparent;border:none;color:var(--pink);cursor:pointer;font-size:12px}
+
+.tabs-bar{
+  display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-bottom:10px;
+}
+.tab{
+  display:flex;align-items:center;gap:6px;background:var(--panel);border:1px solid var(--border);
+  padding:6px 10px;border-radius:10px 10px 0 0;cursor:pointer;font-size:13px;max-width:180px;
+  transition:all .2s;
+}
+.tab.active{background:var(--panel2);border-color:var(--pink);box-shadow:0 -2px 0 var(--pink) inset}
+.tab .t{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1}
+.tab .x{color:var(--muted);font-size:12px;padding:0 2px}
+.tab .x:hover{color:var(--pink)}
+.new-tab-btn{
+  background:var(--panel);border:1px dashed var(--border);color:var(--pink);
+  width:32px;height:32px;border-radius:8px;cursor:pointer;font-size:18px;line-height:1;
+}
+.addr-bar{
+  display:flex;gap:8px;margin-bottom:10px;
+}
+.addr-bar input{
+  flex:1;background:var(--panel);border:1px solid var(--border);border-radius:999px;
+  padding:10px 16px;color:var(--text);font-size:14px;outline:none;
+}
+.addr-bar input:focus{border-color:var(--pink);box-shadow:var(--glow-sm)}
+.addr-bar button{
+  background:linear-gradient(135deg,var(--pink),var(--red));color:#fff;border:none;
+  padding:10px 16px;border-radius:999px;cursor:pointer;font-weight:600;box-shadow:var(--glow-sm);
+}
+.browser-frame{
+  width:100%;height:62vh;background:#fff;border:1px solid var(--border);border-radius:var(--radius);
+  overflow:hidden;
+}
+.browser-frame iframe{width:100%;height:100%;border:none}
+
+/* Bookmarks/History */
+.list-card{
+  background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:14px;
+}
+.list-item{
+  display:flex;align-items:center;gap:12px;padding:10px;border-bottom:1px solid #ffffff0d;
+}
+.list-item:last-child{border-bottom:none}
+.list-item .meta{flex:1;min-width:0}
+.list-item .title{font-weight:600;font-size:14px}
+.list-item .url{color:var(--muted);font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.list-item button{background:transparent;border:1px solid var(--border);color:var(--text);padding:6px 10px;border-radius:8px;cursor:pointer;font-size:12px}
+.list-item button:hover{border-color:var(--pink);color:var(--pink)}
+.empty{text-align:center;color:var(--muted);padding:30px}
+
+/* Settings */
+.settings-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+.setting{
+  background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:16px;
+}
+.setting h3{margin:0 0 8px;color:var(--pink)}
+.setting p{color:var(--muted);font-size:13px;margin:0 0 12px}
+.toggle{display:flex;align-items:center;gap:10px;cursor:pointer}
+.toggle input{accent-color:var(--pink);width:18px;height:18px}
+.danger{background:linear-gradient(135deg,#ff1744,#a00);color:#fff;border:none;padding:10px 16px;border-radius:10px;cursor:pointer;font-weight:600;box-shadow:0 0 14px #ff174466}
+
+/* Footer */
+footer{text-align:center;color:var(--muted);font-size:12px;padding:24px 0 8px}
+
+/* Scrollbar */
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:#ff2d7555;border-radius:10px}
+::-webkit-scrollbar-thumb:hover{background:var(--pink)}
+
+/* Reduced motion */
+body.reduce-motion *{animation:none!important;transition:none!important}
+body.no-glow *{text-shadow:none!important;box-shadow:none!important}
+</style>
+</head>
+<body>
+<div class="bg-layer" aria-hidden="true"></div>
+<div id="cursor" class="cursor-dot"></div>
+<div id="cursorTrail" class="cursor-trail"></div>
+<div id="cursorTrail2" class="cursor-trail cursor-trail2"></div>
+<div id="cursorTrail3" class="cursor-trail cursor-trail3"></div>
+<div id="cursorRipple" class="cursor-ripple"></div>
+<div id="loader" class="loader">
+  <img src="img/logo2.png" class="loader-logo" alt="Cherri"/>
+  <div class="loader-text">loading might take a bit on first load</div>
+  <div class="loader-bar"><div class="loader-fill"></div></div>
+</div>
+<header>
+  <div class="logo" id="logoBtn" role="button" tabindex="0">
+    <img src="img/logo1.png" alt="Cherri" class="logo-img"/>
+  </div>
+  <nav>
+    <button class="tab-btn active" data-page="games"><i class="fas fa-gamepad"></i> Games</button>
+    <button class="tab-btn" data-page="browser"><i class="fas fa-globe"></i> Browser</button>
+    <button class="tab-btn" data-page="bookmarks"><i class="fas fa-star"></i> Bookmarks</button>
+    <button class="tab-btn" data-page="history"><i class="fas fa-history"></i> History</button>
+    <button class="tab-btn" data-page="settings"><i class="fas fa-cog"></i> Settings</button>
+  </nav>
+</header>
+
+<main>
+  <!-- GAMES -->
+  <section id="page-games" class="page active">
+    <div class="hero">
+      <img src="img/logo2.png" alt="Cherri" class="hero-logo"/>
+      <p>made by rmc</p>
+    </div>
+    <div class="toolbar">
+      <div class="search-box">
+        <span class="icon"><i class="fas fa-search"></i></span>
+        <input id="gameSearch" placeholder="Search games..." autocomplete="off"/>
+      </div>
+      <button class="chip active" data-filter="all">All</button>
+      <button class="chip" data-filter="fav">Favorites</button>
+    </div>
+    <div id="gamesGrid" class="games-grid"></div>
+  </section>
+
+  <!-- BROWSER -->
+  <section id="page-browser" class="page">
+    <div class="hero">
+      <h1>Cherri Browser</h1>
+      <p>Search with DuckDuckGo, open tabs, save bookmarks.</p>
+    </div>
+    <div class="browser">
+      <div class="side-panel">
+        <h3>Quick Links</h3>
+        <ul class="side-list" id="quickLinks"></ul>
+        <h3 style="margin-top:14px">Bookmarks</h3>
+        <ul class="side-list" id="sideBookmarks"></ul>
+      </div>
+      <div>
+        <div class="tabs-bar" id="tabsBar">
+          <button class="new-tab-btn" id="newTabBtn" title="New tab">+</button>
+        </div>
+        <div class="addr-bar">
+          <input id="addrInput" placeholder="Search or enter URL..." autocomplete="off"/>
+          <button id="goBtn">Go</button>
+          <button id="bmBtn" class="modal-btn" title="Bookmark this page"><i class="fas fa-star"></i></button>
+        </div>
+        <div class="browser-frame" style="position:relative">
+          <iframe id="browserFrame" src="about:blank" sandbox="allow-scripts allow-forms allow-popups allow-modals"></iframe>
+          <div id="searchPanel" style="position:absolute;inset:0;overflow:auto;background:var(--bg2);display:none;padding:16px"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BOOKMARKS -->
+  <section id="page-bookmarks" class="page">
+    <div class="hero"><h1>Bookmarks</h1><p>Your saved pages.</p></div>
+    <div class="list-card" id="bookmarksList"></div>
+  </section>
+
+  <!-- HISTORY -->
+  <section id="page-history" class="page">
+    <div class="hero"><h1>History</h1><p>Pages you've visited.</p></div>
+    <div class="list-card" id="historyList"></div>
+  </section>
+
+  <!-- SETTINGS -->
+  <section id="page-settings" class="page">
+    <div class="hero"><h1>Settings</h1><p>Customize Cherri.</p></div>
+    <div class="settings-grid">
+      <div class="setting">
+        <h3>Open games in new tab</h3>
+        <p>When enabled, game cards open in a new browser tab instead of the in-site player.</p>
+        <label class="toggle"><input type="checkbox" id="setNewTab"/> Enable</label>
+      </div>
+      <div class="setting">
+        <h3>Glow effects</h3>
+        <p>Toggle neon glows and animated backgrounds.</p>
+        <label class="toggle"><input type="checkbox" id="setGlow" checked/> Enable</label>
+      </div>
+      <div class="setting">
+        <h3>Reduce motion</h3>
+        <p>Disable animations for accessibility.</p>
+        <label class="toggle"><input type="checkbox" id="setMotion"/> Enable</label>
+      </div>
+      <div class="setting">
+        <h3>Custom cursor</h3>
+        <p>Show the animated dot cursor with trails.</p>
+        <label class="toggle"><input type="checkbox" id="setCursor" checked/> Enable</label>
+      </div>
+      <div class="setting">
+        <h3>Favorites</h3>
+        <p>Mark games as favorites for quick access.</p>
+        <p id="favCount">0 favorites</p>
+      </div>
+      <div class="setting">
+        <h3>Data</h3>
+        <p>Clear stored bookmarks, history, tabs and settings.</p>
+        <button class="danger" id="clearDataBtn">Clear all data</button>
+      </div>
+      <div class="setting">
+        <h3>Export / Import</h3>
+        <p>Backup your bookmarks and history as JSON.</p>
+        <button class="modal-btn" id="exportBtn">Export</button>
+        <button class="modal-btn" id="importBtn">Import</button>
+        <input type="file" id="importFile" accept="application/json" style="display:none"/>
+      </div>
+    </div>
+    <div class="setting" style="margin-top:16px">
+      <h3>Credits</h3>
+      <p>rmc = riley, marcus, christian</p>
+    </div>
+  </section>
+</main>
+
+<!-- Game modal -->
+<div id="gameModal" class="modal hidden">
+  <div class="modal-bar">
+    <span class="title" id="gameModalTitle">Game</span>
+    <button class="modal-btn" id="gameFsBtn">Fullscreen</button>
+    <button class="modal-btn" id="gameNewTabBtn">Open in new tab</button>
+    <button class="modal-btn" id="gameCloseBtn">✕ Close</button>
+  </div>
+  <iframe id="gameFrame" src="about:blank" allowfullscreen></iframe>
+</div>
+
+<footer>Cherri • Unblocked games &amp; browser • made by rmc</footer>
+
+<script src="games.js"></script>
+<script>
+/* ---------- State ---------- */
+const STORAGE = {
+  bookmarks: 'cherri_v2_bookmarks',
+  history: 'cherri_v2_history',
+  settings: 'cherri_v2_settings',
+  tabs: 'cherri_v2_tabs',
+  favs: 'cherri_v2_favs',
+};
+function load(key, def){ try{ return JSON.parse(localStorage.getItem(key)) ?? JSON.stringify(def); }catch(e){ return def; } }
+function save(key, val){ localStorage.setItem(key, JSON.stringify(val)); }
+
+let bookmarks = load(STORAGE.bookmarks, []); if(!Array.isArray(bookmarks)) bookmarks=[];
+let history = load(STORAGE.history, []); if(!Array.isArray(history)) history=[];
+let settings = Object.assign({newTab:false,glow:true,motion:false,cursor:true}, (typeof load(STORAGE.settings,{})==='object'?load(STORAGE.settings,{}) : {}));
+let favs = new Set(Array.isArray(load(STORAGE.favs,[]))?load(STORAGE.favs,[]):[]);
+
+let tabs = load(STORAGE.tabs, [{id:1,title:'New Tab',url:'about:blank',mode:'browse',query:''}]);
+if(!Array.isArray(tabs)) tabs = [{id:1,title:'New Tab',url:'about:blank',mode:'browse',query:''}];
+tabs = tabs.map(t=>Object.assign({mode:'browse',query:''},t));
+let activeTabId = tabs.length? tabs[0].id : null;
+let tabCounter = (Array.isArray(tabs)? tabs.reduce((m,t)=>Math.max(m,(t&&t.id)||0),0) : 0)+1;
+
+/* ---------- Navigation ---------- */
+const pages = document.querySelectorAll('.page');
+const tabBtns = document.querySelectorAll('.tab-btn');
+function showPage(name){
+  pages.forEach(p=>p.classList.toggle('active', p.id==='page-'+name));
+  tabBtns.forEach(b=>b.classList.toggle('active', b.dataset.page===name));
+  if(name==='bookmarks') renderBookmarks();
+  if(name==='history') renderHistory();
+  if(name==='browser') renderTabs();
+}
+tabBtns.forEach(b=>b.addEventListener('click',()=>showPage(b.dataset.page)));
+document.getElementById('logoBtn').addEventListener('click',()=>{
+  const activePage=document.querySelector('.page.active');
+  if(activePage && activePage.id==='page-browser'){
+    const active=tabs.find(t=>t.id===activeTabId);
+    if(active && active.mode==='search'){
+      active.mode='browse';
+      active.query='';
+      active.url='about:blank';
+      active.title='New Tab';
+      document.getElementById('searchPanel').style.display='none';
+      browserFrame.style.display='';
+      browserFrame.src='about:blank';
+      addrInput.value='';
+      saveTabs(); renderTabs();
+      return;
+    }
+  }
+  showPage('games');
+});
+
+/* ---------- Games ---------- */
+const grid = document.getElementById('gamesGrid');
+const gameSearch = document.getElementById('gameSearch');
+let currentFilter='all';
+function renderGames(){
+  const q = gameSearch.value.trim().toLowerCase();
+  grid.innerHTML='';
+  let count=0;
+  GAMES.forEach(g=>{
+    const name=g.name.toLowerCase();
+    if(q && !name.includes(q)) return;
+    if(currentFilter==='fav' && !favs.has(g.url)) return;
+    count++;
+    const card=document.createElement('div');
+    card.className='game-card';
+    card.setAttribute('role','button');
+    card.setAttribute('tabindex','0');
+    card.innerHTML=`
+      <div class="play"><i class="fas fa-play"></i></div>
+      <img src="${g.icon}" alt="${g.name}" loading="lazy" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect width=%22100%22 height=%22100%22 fill=%22%231a1a28%22/%3E%3Ctext x=%2250%22 y=%2255%22 font-size=%2240%22 text-anchor=%22middle%22 fill=%22%23ff2d75%22%3EG%3C/text%3E%3C/svg%3E'"/>
+      <div class="name">${g.name}</div>`;
+    card.addEventListener('click',()=>openGame(g));
+    // favorite toggle via right click
+    card.addEventListener('contextmenu',e=>{e.preventDefault();toggleFav(g.url);renderGames();});
+    grid.appendChild(card);
+  });
+  if(count===0) grid.innerHTML='<div class="empty" style="grid-column:1/-1">No games found.</div>';
+}
+gameSearch.addEventListener('input',renderGames);
+document.querySelectorAll('.chip').forEach(c=>c.addEventListener('click',()=>{
+  document.querySelectorAll('.chip').forEach(x=>x.classList.remove('active'));
+  c.classList.add('active'); currentFilter=c.dataset.filter; renderGames();
+}));
+function toggleFav(url){ if(favs.has(url)) favs.delete(url); else favs.add(url); save(STORAGE.favs,[...favs]); document.getElementById('favCount').textContent=favs.size+' favorites'; }
+
+/* Game modal */
+const gameModal=document.getElementById('gameModal');
+const gameFrame=document.getElementById('gameFrame');
+const gameModalTitle=document.getElementById('gameModalTitle');
+let currentGameUrl='';
+const sndClick=new Audio('sounds/click.mp3');
+const sndType=new Audio('sounds/type.mp3');
+const sndXp=new Audio('sounds/xp.mp3');
+const sndLeave=new Audio('sounds/leave.mp3');
+function playClick(){sndClick.currentTime=0;sndClick.play().catch(()=>{});}
+function playType(){sndType.currentTime=0;sndType.play().catch(()=>{});}
+function playXp(){sndXp.currentTime=0;sndXp.play().catch(()=>{});}
+function playLeave(){sndLeave.currentTime=0;sndLeave.play().catch(()=>{});}
+document.addEventListener('click',playClick);
+document.addEventListener('keydown',e=>{const t=e.target;if(t&&(t.tagName==='INPUT'||t.tagName==='TEXTAREA'||t.isContentEditable))playType();});
+function openGame(g){
+  playXp();
+  if(settings.newTab){ window.open(g.url,'_blank'); return; }
+  document.body.classList.add('game-open');
+  currentGameUrl=g.url;
+  gameModalTitle.textContent=g.name;
+  gameFrame.src=g.url;
+  gameModal.classList.remove('hidden');
+  addHistory(g.url, g.name);
+}
+document.getElementById('gameCloseBtn').addEventListener('click',()=>{playLeave();document.body.classList.remove('game-open');gameModal.classList.add('hidden');gameFrame.src='about:blank';});
+document.getElementById('gameFsBtn').addEventListener('click',()=>{ if(gameFrame.requestFullscreen) gameFrame.requestFullscreen(); });
+document.getElementById('gameNewTabBtn').addEventListener('click',()=>window.open(currentGameUrl,'_blank'));
+document.addEventListener('keydown',e=>{ if(e.key==='Escape' && !gameModal.classList.contains('hidden')) document.getElementById('gameCloseBtn').click(); });
+
+/* ---------- Browser tabs ---------- */
+const tabsBar=document.getElementById('tabsBar');
+const browserFrame=document.getElementById('browserFrame');
+const addrInput=document.getElementById('addrInput');
+function saveTabs(){ save(STORAGE.tabs, tabs); }
+function renderTabs(){
+  tabsBar.querySelectorAll('.tab').forEach(t=>t.remove());
+  const newBtn=document.getElementById('newTabBtn');
+  tabs.forEach(t=>{
+    const el=document.createElement('div');
+    el.className='tab'+(t.id===activeTabId?' active':'');
+    el.innerHTML=`<span class="t">${escapeHtml(t.title||'New Tab')}</span><span class="x" data-id="${t.id}">✕</span>`;
+    el.addEventListener('click',e=>{
+      if(e.target.classList.contains('x')){ closeTab(t.id); return; }
+      activeTabId=t.id;
+      if(t.mode==='search') { showSearch(t.query); }
+      else { browserFrame.src=t.url; document.getElementById('searchPanel').style.display='none'; browserFrame.style.display=''; }
+      addrInput.value = t.mode==='search' ? t.query : (t.url==='about:blank'?'':t.url);
+      saveTabs(); renderTabs();
+    });
+    tabsBar.insertBefore(el,newBtn);
+  });
+  const active=tabs.find(t=>t.id===activeTabId);
+  if(active){
+    if(active.mode==='search'){
+      addrInput.value=active.query;
+      browserFrame.style.display='none';
+      showSearch(active.query);
+    } else {
+      document.getElementById('searchPanel').style.display='none';
+      browserFrame.style.display='';
+      addrInput.value = active.url==='about:blank'?'':active.url;
+      browserFrame.src=active.url;
+    }
+  }
+}
+function showSearch(q){
+  const panel=document.getElementById('searchPanel');
+  panel.style.display='block';
+  browserFrame.style.display='none';
+  panel.innerHTML='<div style="color:var(--muted)">Searching DuckDuckGo for "'+escapeHtml(q)+'"...</div>';
+  runSearch(q);
+}
+function newTab(url='about:blank', title='New Tab', mode='browse', query=''){
+  const t={id:tabCounter++,title,url,mode,query};
+  tabs.push(t); activeTabId=t.id; saveTabs();
+  if(mode==='search'){ renderTabs(); showSearch(query); }
+  else { renderTabs(); if(url!=='about:blank') navigate(url,false); }
+}
+function closeTab(id){
+  if(tabs.length<=1){ tabs[0]={id:tabCounter++,title:'New Tab',url:'about:blank',mode:'browse',query:''}; activeTabId=tabs[0].id; }
+  else {
+    const idx=tabs.findIndex(t=>t.id===id);
+    tabs=tabs.filter(t=>t.id!==id);
+    if(activeTabId===id) activeTabId=tabs[Math.max(0,idx-1)].id;
+  }
+  saveTabs(); renderTabs();
+}
+document.getElementById('newTabBtn').addEventListener('click',()=>newTab());
+
+function isUrl(str){
+  return /^https?:\/\//i.test(str) || /^[a-z0-9.-]+\.[a-z]{2,}/i.test(str);
+}
+function toUrl(str){
+  str=str.trim();
+  if(/^https?:\/\//i.test(str)) return str;
+  if(isUrl(str)) return 'https://'+str;
+  return null; // search query
+}
+function navigate(url, pushHistory=true){
+  const active=tabs.find(t=>t.id===activeTabId);
+  if(!active) return;
+  const trimmed=url.trim();
+  const finalUrl=toUrl(trimmed);
+  if(finalUrl){
+    active.mode='browse';
+    active.query='';
+    active.url=finalUrl;
+    active.title=titleFromUrl(finalUrl);
+    document.getElementById('searchPanel').style.display='none';
+    browserFrame.style.display='';
+    browserFrame.src=finalUrl;
+    addrInput.value = finalUrl==='about:blank'?'':finalUrl;
+    saveTabs();
+    if(pushHistory) addHistory(finalUrl, active.title);
+    renderTabs();
+  } else {
+    // search query
+    active.mode='search';
+    active.query=trimmed;
+    active.url='https://duckduckgo.com/?q='+encodeURIComponent(trimmed);
+    active.title='Search: '+trimmed;
+    addrInput.value=trimmed;
+    saveTabs();
+    if(pushHistory) addHistory(active.url, active.title);
+    renderTabs();
+  }
+}
+document.getElementById('goBtn').addEventListener('click',()=>navigate(addrInput.value));
+addrInput.addEventListener('keydown',e=>{ if(e.key==='Enter') navigate(addrInput.value); });
+
+function titleFromUrl(u){
+  try{ const x=new URL(u); return x.hostname.replace('www.','') || 'New Tab'; }
+  catch(e){ return 'New Tab'; }
+}
+
+/* Update tab title on iframe load (best effort) */
+browserFrame.addEventListener('load',()=>{
+  const active=tabs.find(t=>t.id===activeTabId);
+  if(!active || active.mode!=='browse') return;
+  try{
+    const doc=browserFrame.contentDocument;
+    if(doc && doc.title) active.title=doc.title.slice(0,40);
+  }catch(e){}
+  saveTabs(); renderTabs();
+});
+
+/* ---------- Search ---------- */
+function jsonp(url){
+  return new Promise((resolve,reject)=>{
+    const cb='ddgcb_'+Date.now()+'_'+Math.random().toString(36).slice(2);
+    window[cb]=data=>{ resolve(data); cleanup(); };
+    const script=document.createElement('script');
+    script.src=url+(url.includes('?')?'&':'?')+'callback='+cb;
+    script.onerror=()=>{ reject(new Error('jsonp fail')); cleanup(); };
+    document.head.appendChild(script);
+    function cleanup(){ try{delete window[cb];}catch(e){} if(script.parentNode) script.parentNode.removeChild(script); }
+    setTimeout(()=>{ if(window[cb]){ try{delete window[cb];}catch(e){} if(script.parentNode) script.parentNode.removeChild(script); reject(new Error('timeout')); } },8000);
+  });
+}
+async function runSearch(q){
+  const panel=document.getElementById('searchPanel');
+  panel.innerHTML='<div style="color:var(--muted)">Searching DuckDuckGo for "'+escapeHtml(q)+'"…</div>';
+  let results=[];
+  try {
+    const data = await jsonp('https://api.duckduckgo.com/?q='+encodeURIComponent(q)+'&format=json&no_html=1&skip_disambig=1');
+    if(data.AbstractText) results.push({title:data.Heading||q, snippet:data.AbstractText, url:data.AbstractURL});
+    const flatten = (arr)=>{ arr.forEach(t=>{ if(t.Text && t.FirstURL) results.push({title:String(t.Text).split(' - ')[0], snippet:t.Text, url:t.FirstURL}); if(t.Topics) flatten(t.Topics); }); };
+    if(Array.isArray(data.RelatedTopics)) flatten(data.RelatedTopics);
+  } catch(e){}
+  // also provide direct DDG link result
+  results.unshift({title:'Search "'+q+'" on DuckDuckGo', snippet:'Open full search results on DuckDuckGo.', url:'https://duckduckgo.com/?q='+encodeURIComponent(q)});
+  const seen=new Set();
+  results=results.filter(r=>{ if(!r.url||seen.has(r.url)) return false; seen.add(r.url); return true; });
+  let html = '<div style="margin-bottom:12px"><strong style="color:var(--pink)">DuckDuckGo results for "'+escapeHtml(q)+'"</strong> <a href="https://duckduckgo.com/?q='+encodeURIComponent(q)+'" target="_blank" rel="noopener" style="color:var(--pink2);margin-left:8px">Open on DuckDuckGo ↗</a></div>';
+  if(results.length===0) html += '<div style="color:var(--muted)">No results returned (CORS or network). Try opening on DuckDuckGo.</div>';
+  else html += results.map(r=>`
+    <div style="background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:12px;margin-bottom:10px">
+      <a href="${r.url}" target="_blank" rel="noopener" style="color:var(--pink2);font-weight:600;font-size:15px">${escapeHtml(r.title||r.url)}</a>
+      <div style="color:var(--muted);font-size:12px;margin:4px 0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${escapeHtml(r.url)}</div>
+      <div style="font-size:13px">${escapeHtml(r.snippet||'')}</div>
+      <button class="modal-btn" style="margin-top:8px" onclick="navigate('${String(r.url).replace(/'/g,"\\'")}',true)">Open in tab</button>
+    </div>`).join('');
+  panel.innerHTML=html;
+}
+
+/* ---------- History & Bookmarks ---------- */
+function addHistory(url,title){
+  if(!url || url==='about:blank') return;
+  // avoid dup consecutive
+  if(history.length && history[0].url===url) return;
+  history.unshift({url,title:title||titleFromUrl(url),time:Date.now()});
+  if(history.length>500) history.length=500;
+  save(STORAGE.history,history);
+}
+function renderHistory(){
+  const el=document.getElementById('historyList');
+  if(!history.length){ el.innerHTML='<div class="empty">No history yet.</div>'; return; }
+  el.innerHTML=history.map((h,i)=>`
+    <div class="list-item">
+      <div class="meta">
+        <div class="title">${escapeHtml(h.title)}</div>
+        <div class="url">${escapeHtml(h.url)}</div>
+      </div>
+      <button data-i="${i}" data-act="open">Open</button>
+      <button data-i="${i}" data-act="del">Delete</button>
+    </div>`).join('');
+  el.querySelectorAll('button').forEach(b=>{
+    b.addEventListener('click',()=>{
+      const i=+b.dataset.i;
+      if(b.dataset.act==='open'){ showPage('browser'); newTab(history[i].url,history[i].title); }
+      else { history.splice(i,1); save(STORAGE.history,history); renderHistory(); }
+    });
+  });
+}
+function addBookmark(url,title){
+  if(!url || url==='about:blank') return;
+  if(bookmarks.some(b=>b.url===url)) return;
+  bookmarks.unshift({url,title:title||titleFromUrl(url),time:Date.now()});
+  save(STORAGE.bookmarks,bookmarks);
+  renderSideBookmarks();
+}
+document.getElementById('bmBtn').addEventListener('click',()=>{
+  const a=tabs.find(t=>t.id===activeTabId); if(a) addBookmark(a.url,a.title);
+});
+function renderBookmarks(){
+  const el=document.getElementById('bookmarksList');
+  if(!bookmarks.length){ el.innerHTML='<div class="empty">No bookmarks yet.</div>'; return; }
+  el.innerHTML=bookmarks.map((b,i)=>`
+    <div class="list-item">
+      <div class="meta">
+        <div class="title">${escapeHtml(b.title)}</div>
+        <div class="url">${escapeHtml(b.url)}</div>
+      </div>
+      <button data-i="${i}" data-act="open">Open</button>
+      <button data-i="${i}" data-act="del">Delete</button>
+    </div>`).join('');
+  el.querySelectorAll('button').forEach(b=>{
+    b.addEventListener('click',()=>{
+      const i=+b.dataset.i;
+      if(b.dataset.act==='open'){ showPage('browser'); newTab(bookmarks[i].url,bookmarks[i].title); }
+      else { bookmarks.splice(i,1); save(STORAGE.bookmarks,bookmarks); renderBookmarks(); renderSideBookmarks(); }
+    });
+  });
+}
+function renderSideBookmarks(){
+  const el=document.getElementById('sideBookmarks');
+  el.innerHTML=bookmarks.slice(0,12).map(b=>`<li><span><i class="fas fa-star"></i></span><span class="u" title="${escapeHtml(b.url)}">${escapeHtml(b.title)}</span></li>`).join('');
+  el.querySelectorAll('li').forEach((li,i)=>{
+    li.addEventListener('click',()=>{ showPage('browser'); newTab(bookmarks[i].url,bookmarks[i].title); });
+  });
+}
+const quickLinksData=[
+  {t:'DuckDuckGo',u:'https://duckduckgo.com'},
+  {t:'Wikipedia',u:'https://en.wikipedia.org'},
+  {t:'GitHub',u:'https://github.com'},
+  {t:'Reddit',u:'https://www.reddit.com'},
+];
+function renderQuickLinks(){
+  const el=document.getElementById('quickLinks');
+  el.innerHTML=quickLinksData.map(q=>`<li><span><i class="fas fa-link"></i></span><span class="u">${q.t}</span></li>`).join('');
+  el.querySelectorAll('li').forEach((li,i)=>{
+    li.addEventListener('click',()=>{ showPage('browser'); newTab(quickLinksData[i].u,quickLinksData[i].t); });
+  });
+}
+
+/* ---------- Settings ---------- */
+function applySettings(){
+  document.getElementById('setNewTab').checked=!!settings.newTab;
+  document.getElementById('setGlow').checked=settings.glow!==false;
+  document.getElementById('setMotion').checked=!!settings.motion;
+  document.body.classList.toggle('reduce-motion',!!settings.motion);
+  document.body.style.filter = settings.glow===false ? 'none' : '';
+  // glow via class on body
+  document.body.classList.toggle('no-glow', settings.glow===false);
+}
+document.getElementById('setNewTab').addEventListener('change',e=>{settings.newTab=e.target.checked;save(STORAGE.settings,settings);});
+document.getElementById('setGlow').addEventListener('change',e=>{settings.glow=e.target.checked;save(STORAGE.settings,settings);applySettings();});
+document.getElementById('setMotion').addEventListener('change',e=>{settings.motion=e.target.checked;save(STORAGE.settings,settings);applySettings();});
+document.getElementById('clearDataBtn').addEventListener('click',()=>{
+  if(!confirm('Clear all Cherri data?')) return;
+  localStorage.clear();
+  location.reload();
+});
+document.getElementById('exportBtn').addEventListener('click',()=>{
+  const data={bookmarks,history,settings,favs:[...favs]};
+  const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='cherri-backup.json'; a.click();
+});
+document.getElementById('importBtn').addEventListener('click',()=>document.getElementById('importFile').click());
+document.getElementById('importFile').addEventListener('change',e=>{
+  const f=e.target.files[0]; if(!f) return;
+  const r=new FileReader();
+  r.onload=()=>{ try{
+    const d=JSON.parse(r.result);
+    if(d.bookmarks) bookmarks=d.bookmarks;
+    if(d.history) history=d.history;
+    if(d.settings) settings=d.settings;
+    if(d.favs) favs=new Set(d.favs);
+    save(STORAGE.bookmarks,bookmarks); save(STORAGE.history,history); save(STORAGE.settings,settings); save(STORAGE.favs,[...favs]);
+    applySettings(); renderGames(); renderBookmarks(); renderHistory(); renderSideBookmarks();
+    alert('Imported successfully.');
+  }catch(err){ alert('Invalid file.'); } };
+  r.readAsText(f);
+});
+
+/* ---------- Utils ---------- */
+function escapeHtml(s){ return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+/* ---------- Loader ---------- */
+const loader=document.getElementById('loader');
+const loaderFill=document.querySelector('.loader-fill');
+
+function wait(ms){return new Promise(r=>setTimeout(r,ms));}
+async function runLoader(){
+  document.body.style.overflow='hidden';
+  const isFirst=!localStorage.getItem('cherri_visited');
+  localStorage.setItem('cherri_visited','1');
+  const duration=isFirst?2600:900;
+  loaderFill.style.transition='width '+duration+'ms cubic-bezier(.4,0,.2,1)';
+  setTimeout(()=>{loaderFill.style.width='100%';},60);
+  await wait(duration+200);
+  loader.classList.add('hide');
+  await wait(650);
+  loader.style.display='none';
+  document.body.style.overflow='';
+  revealGames();
+}
+function revealGames(){
+  const cards=document.querySelectorAll('.game-card');
+  cards.forEach((c,i)=>{c.style.opacity='0';c.style.transform='translateY(16px)';setTimeout(()=>{c.style.transition='opacity .45s ease, transform .45s ease';c.style.opacity='1';c.style.transform='none';}, i*18);});
+}
+function setupReveal(){
+  const obs=new IntersectionObserver(entries=>{
+    entries.forEach(en=>{ if(en.isIntersecting){ en.target.classList.add('in-view'); } });
+  },{threshold:0.12});
+  document.querySelectorAll('.game-card,.side-panel,.list-card,.setting,.hero,.browser-frame').forEach(el=>{
+    el.classList.add('reveal');
+    obs.observe(el);
+  });
+}
+setTimeout(setupReveal,100);
+
+/* ---------- Init ---------- */
+applySettings();
+const cursorDot=document.getElementById('cursor');
+const cursorTrail=document.getElementById('cursorTrail');
+const cursorTrail2=document.getElementById('cursorTrail2');
+const cursorTrail3=document.getElementById('cursorTrail3');
+const cursorRipple=document.getElementById('cursorRipple');
+let cursorEnabled=settings.cursor!==false;
+let mx=window.innerWidth/2, my=window.innerHeight/2;
+let t1x=mx,t1y=my,t2x=mx,t2y=my,t3x=mx,t3y=my;
+function updateCursor(){
+  t1x += (mx-t1x)*0.22;
+  t1y += (my-t1y)*0.22;
+  t2x += (mx-t2x)*0.12;
+  t2y += (my-t2y)*0.12;
+  t3x += (mx-t3x)*0.06;
+  t3y += (my-t3y)*0.06;
+  cursorDot.style.left=mx+'px';
+  cursorDot.style.top=my+'px';
+  cursorTrail.style.left=t1x+'px';
+  cursorTrail.style.top=t1y+'px';
+  cursorTrail2.style.left=t2x+'px';
+  cursorTrail2.style.top=t2y+'px';
+  cursorTrail3.style.left=t3x+'px';
+  cursorTrail3.style.top=t3y+'px';
+  requestAnimationFrame(updateCursor);
+}
+updateCursor();
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
+document.addEventListener('mousedown',()=>{
+  cursorDot.classList.add('click');
+  cursorRipple.style.left=mx+'px';
+  cursorRipple.style.top=my+'px';
+  cursorRipple.style.width='0px';
+  cursorRipple.style.height='0px';
+  cursorRipple.style.opacity='0.9';
+  let size=0;
+  const anim=setInterval(()=>{
+    size+=6;
+    cursorRipple.style.width=size+'px';
+    cursorRipple.style.height=size+'px';
+    cursorRipple.style.opacity=String(Math.max(0,0.9-size/60));
+    if(size>60){clearInterval(anim);cursorRipple.style.opacity='0';}
+  },16);
+});
+document.addEventListener('mouseup',()=>cursorDot.classList.remove('click'));
+document.addEventListener('mouseover',e=>{
+  const t=e.target;
+  if(t && (t.tagName==='A' || t.tagName==='BUTTON' || t.getAttribute('role')==='button' || t.classList.contains('game-card'))){
+    cursorDot.classList.add('hover');
+    cursorTrail.classList.add('hover');
+    cursorTrail2.classList.add('hover');
+    cursorTrail3.classList.add('hover');
+  }
+});
+document.addEventListener('mouseout',e=>{
+  const t=e.target;
+  if(t && (t.tagName==='A' || t.tagName==='BUTTON' || t.getAttribute('role')==='button' || t.classList.contains('game-card'))){
+    cursorDot.classList.remove('hover');
+    cursorTrail.classList.remove('hover');
+    cursorTrail2.classList.remove('hover');
+    cursorTrail3.classList.remove('hover');
+  }
+});
+function applyCursor(){
+  cursorEnabled=settings.cursor!==false;
+  const cb=document.getElementById('setCursor');
+  if(cb) cb.checked=cursorEnabled;
+  if(cursorEnabled){
+    cursorDot.classList.remove('hidden');
+    cursorTrail.classList.remove('hidden');
+    cursorTrail2.classList.remove('hidden');
+    cursorTrail3.classList.remove('hidden');
+    cursorRipple.classList.remove('hidden');
+    document.body.classList.add('custom-cursor');
+  } else {
+    cursorDot.classList.add('hidden');
+    cursorTrail.classList.add('hidden');
+    cursorTrail2.classList.add('hidden');
+    cursorTrail3.classList.add('hidden');
+    cursorRipple.classList.add('hidden');
+    document.body.classList.remove('custom-cursor');
+  }
+}
+const setCursorCb=document.getElementById('setCursor');
+if(setCursorCb) setCursorCb.addEventListener('change',e=>{
+  settings.cursor=e.target.checked;
+  save(STORAGE.settings,settings);
+  applyCursor();
+});
+applyCursor();
+renderGames();
+renderQuickLinks();
+renderSideBookmarks();
+renderTabs();
+document.getElementById('favCount').textContent=favs.size+' favorites';
+runLoader();
+// persist tabs on unload
+window.addEventListener('beforeunload',saveTabs);
+</script>
+</body>
+</html>
